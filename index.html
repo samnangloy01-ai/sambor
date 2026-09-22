@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angkor Lens - Ancient Temples & Galleries</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-800 antialiased">
 
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-neutral-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <h1 class="text-2xl font-bold tracking-tight text-neutral-900">Angkor <span class="text-cyan-600">Lens</span></h1>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-600">
+                <a href="#" class="hover:text-cyan-600 transition">Angkor</a>
+                <a href="#" class="hover:text-cyan-600 transition">Temple Groups</a>
+                <a href="#" class="hover:text-cyan-600 transition">Provinces</a>
+                <a href="#" class="hover:text-cyan-600 transition">Books</a>
+                <a href="#" class="hover:text-cyan-600 transition">Events</a>
+                <a href="#" class="hover:text-cyan-600 transition">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section / Search Bar -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="relative rounded-3xl overflow-hidden shadow-xl bg-neutral-900 h-[350px] sm:h-[450px] flex items-center justify-center p-6">
+            <!-- Background Image -->
+            <img src="01000713 2.JPG" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+            
+            <div class="relative z-10 text-center max-w-2xl w-full">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">Search Temples, Attractions & More</h2>
+                <div class="flex items-center bg-white rounded-full shadow-lg p-2 max-w-xl mx-auto">
+                    <input type="text" placeholder="Search temples, ruins, provinces..." class="w-full px-4 py-2 text-sm text-neutral-800 focus:outline-none rounded-l-full">
+                    <button class="bg-neutral-900 text-white p-3 rounded-full hover:bg-cyan-600 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cards Section Container -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Card 1: Prasat Pram -->
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទប្រាំ (Prasat Pram)', '10th Century - Koh Ker Archaeological Landscape', ['01000711 2.JPG', '01000725 2.JPG', '01000747.JPG', '01000750.JPG', '01000773.JPG'])">
+                <div>
+                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
+                        <img src="01000713 2.JPG" alt="Prasat Pram" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="px-2 mb-2">
+                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
+                            1. Prasat Pram (Border Siem Reap-Preah Vihear)
+                        </h3>
+                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទប្រាំ (ព្រំប្រទល់ខេត្តសៀមរាប-ព្រះវិហារ)</span>
+                        <p class="text-xs text-neutral-500 line-clamp-2">
+                            Explore the magnificent 10th-century temple ruins featuring iconic tree roots embracing ancient brick towers.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 pt-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
+                        EXPLORE GUIDE &rarr;
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 2 (ឧទាហរណ៍សម្រាប់កាតផ្សេងទៀត) -->
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទព្រះខ័ន កំពង់ស្វាយ', '11th-12th Century - Preah Vihear', ['01000711 2.JPG', '01000725 2.JPG'])">
+                <div>
+                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
+                        <img src="01000711 2.JPG" alt="Preah Khan" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="px-2 mb-2">
+                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
+                            2. Preah Khan of Kampong Svay
+                        </h3>
+                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទព្រះខ័ន កំពង់ស្វាយ</span>
+                        <p class="text-xs text-neutral-500 line-clamp-2">
+                            The largest single religious enclosure complex ever built during the Angkorian period.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 pt-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
+                        EXPLORE GUIDE &rarr;
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទបន្ទាយស្រី', '10th Century - Angkor Area', ['01000747.JPG', '01000750.JPG'])">
+                <div>
+                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
+                        <img src="01000747.JPG" alt="Banteay Srei" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="px-2 mb-2">
+                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
+                            3. Banteay Srei Temple
+                        </h3>
+                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទបន្ទាយស្រី</span>
+                        <p class="text-xs text-neutral-500 line-clamp-2">
+                            Known for its intricate pink sandstone carvings and exceptional aesthetic beauty.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 pt-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
+                        EXPLORE GUIDE &rarr;
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទតាកែវ', '10th-11th Century - Angkor', ['01000773.JPG', '01000713 2.JPG'])">
+                <div>
+                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
+                        <img src="01000773.JPG" alt="Ta Keo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="px-2 mb-2">
+                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
+                            4. Ta Keo Temple
+                        </h3>
+                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទតាកែវ</span>
+                        <p class="text-xs text-neutral-500 line-clamp-2">
+                            A massive temple-mountain dedicated to Shiva, constructed entirely of green sandstone.
+                        </p>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 pt-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
+                        EXPLORE GUIDE &rarr;
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ផ្ទាំង Modal សម្រាប់បង្ហាញរូបភាពធំៗ -->
+    <div id="myModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h2 id="modalTitle" class="text-2xl font-bold text-neutral-800 mb-1"></h2>
+                    <p id="modalSubtitle" class="text-sm text-neutral-500"></p>
+                </div>
+                <button onclick="closeModal()" class="text-neutral-400 hover:text-neutral-700 font-bold text-3xl px-2">&times;</button>
+            </div>
+
+            <!-- ទីតាំងទាញរូបភាពមកបង្ហាញជាជួរដេកធំៗ -->
+            <div id="modalGallery" class="space-y-4 mb-6"></div>
+
+            <button onclick="closeModal()" class="px-6 py-3 bg-neutral-900 text-white rounded-xl text-xs font-bold uppercase hover:bg-neutral-800 transition">
+                Close Guide
+            </button>
+        </div>
+    </div>
+
+    <!-- កូដ JavaScript សម្រាប់បញ្ជា Modal -->
+    <script>
+    function openModal(title, subtitle, images) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalSubtitle').innerText = subtitle;
+
+        const gallery = document.getElementById('modalGallery');
+        gallery.innerHTML = ''; // សម្អាតទិន្នន័យចាស់
+
+        if (images && images.length > 0) {
+            images.forEach(function(src) {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'w-full h-auto max-h-[600px] rounded-2xl object-cover shadow-lg mb-4';
+                gallery.appendChild(img);
+            });
+        }
+
+        document.getElementById('myModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').classList.add('hidden');
+    }
+    </script>
+
+</body>
+</html>
