@@ -1,200 +1,493 @@
 <!DOCTYPE html>
-<html lang="km">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angkor Lens - Ancient Temples & Galleries</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Your Custom Tour Booking - Siem Reap & San Francisco</title>
     <style>
+        /* --- Global Styles --- */
         body {
-            font-family: 'Kantumruy Pro', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
         }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        p.subtitle {
+            color: #7f8c8d;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+
+        /* --- Tour Grid --- */
+        .tour-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+        .tour-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            width: 350px;
+            text-align: left;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tour-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .tour-header {
+            background-color: #2980b9;
+            color: white;
+            padding: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .tour-header.sf {
+            background-color: #e67e22;
+        }
+        .flag-icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        .tour-body {
+            padding: 25px;
+        }
+        .tour-body h3 {
+            margin-top: 0;
+            color: #34495e;
+            font-size: 1.3em;
+        }
+        .tour-body p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .key-features {
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        .price-tag {
+            font-size: 1.4em;
+            color: #27ae60;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .book-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .book-btn:hover {
+            background-color: #1a252f;
+        }
+
+        /* --- MODAL STYLES (The Booking Window) --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 5% from top and centered */
+            padding: 40px;
+            border: 1px solid #888;
+            width: 500px; /* Could be more or less, depending on screen size */
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Modal Form Elements */
+        .modal-content h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box; /* Important for padding */
+            font-size: 1em;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Booking Summary in Modal */
+        .booking-summary {
+            background-color: #e8f6f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #1abc9c;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .summary-total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #16a085;
+            border-top: 2px solid #1abc9c;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        /* Payment Options */
+        .payment-logos {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .payment-logos img {
+            height: 40px; /* Adjust size */
+            opacity: 0.7;
+        }
+
     </style>
 </head>
-<body class="bg-neutral-50 text-neutral-800 antialiased">
+<body>
 
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b border-neutral-200 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <h1 class="text-2xl font-bold tracking-tight text-neutral-900">Angkor <span class="text-cyan-600">Lens</span></h1>
+<div class="container">
+    <h1>Book Your Professional Tour</h1>
+    <p class="subtitle">Explore the best of Cambodia and San Francisco with expert local guides.</p>
+
+    <div class="tour-grid">
+        
+        <!-- CARD 1: SIEM REAP (Multi-Day Experience) -->
+        <div class="tour-card">
+            <div class="tour-header">
+                <span class="flag-icon">🇰🇭</span> Siem Reap, Cambodia
             </div>
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-neutral-600">
-                <a href="#" class="hover:text-cyan-600 transition">Angkor</a>
-                <a href="#" class="hover:text-cyan-600 transition">Temple Groups</a>
-                <a href="#" class="hover:text-cyan-600 transition">Provinces</a>
-                <a href="#" class="hover:text-cyan-600 transition">Books</a>
-                <a href="#" class="hover:text-cyan-600 transition">Events</a>
-                <a href="#" class="hover:text-cyan-600 transition">About</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Hero Section / Search Bar -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="relative rounded-3xl overflow-hidden shadow-xl bg-neutral-900 h-[350px] sm:h-[450px] flex items-center justify-center p-6">
-            <!-- Background Image -->
-            <img src="01000713 2.JPG" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover opacity-60">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-            
-            <div class="relative z-10 text-center max-w-2xl w-full">
-                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">Search Temples, Attractions & More</h2>
-                <div class="flex items-center bg-white rounded-full shadow-lg p-2 max-w-xl mx-auto">
-                    <input type="text" placeholder="Search temples, ruins, provinces..." class="w-full px-4 py-2 text-sm text-neutral-800 focus:outline-none rounded-l-full">
-                    <button class="bg-neutral-900 text-white p-3 rounded-full hover:bg-cyan-600 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    </button>
-                </div>
+            <div class="tour-body">
+                <h3>⛩️ Comprehensive Temple & Cultural Experiences</h3>
+                <p>Choose from our extensive list of expertly guided tours, including Angkor Wat Sunrise, Tonle Sap floating villages, and unique local experiences.</p>
+                
+                <ul class="key-features">
+                    <li>✔ Licensed Guides (EN, ES, JP, FR, DE)</li>
+                    <li>✔ Private A/C Transport Included</li>
+                    <li>✔ Customize Your Itinerary</li>
+                </ul>
+                <div class="price-tag">From $30 / person</div>
+                <!-- Button triggers the Modal -->
+                <button class="book-btn" onclick="openSiemReapModal()">Book Siem Reap Tour</button>
             </div>
         </div>
-    </section>
 
-    <!-- Cards Section Container -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Card 1: Prasat Pram -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទប្រាំ (Prasat Pram)', '10th Century - Koh Ker Archaeological Landscape', ['01000711 2.JPG', '01000725 2.JPG', '01000747.JPG', '01000750.JPG', '01000773.JPG'])">
-                <div>
-                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
-                        <img src="01000713 2.JPG" alt="Prasat Pram" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="px-2 mb-2">
-                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
-                            1. Prasat Pram (Border Siem Reap-Preah Vihear)
-                        </h3>
-                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទប្រាំ (ព្រំប្រទល់ខេត្តសៀមរាប-ព្រះវិហារ)</span>
-                        <p class="text-xs text-neutral-500 line-clamp-2">
-                            Explore the magnificent 10th-century temple ruins featuring iconic tree roots embracing ancient brick towers.
-                        </p>
-                    </div>
-                </div>
-                <div class="px-2 pb-2 pt-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
-                        EXPLORE GUIDE &rarr;
-                    </span>
-                </div>
+        <!-- CARD 2: SAN FRANCISCO (City Tour) -->
+        <div class="tour-card">
+            <div class="tour-header sf">
+                <span class="flag-icon">🇺🇸</span> San Francisco, USA
             </div>
-
-            <!-- Card 2 (ឧទាហរណ៍សម្រាប់កាតផ្សេងទៀត) -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទព្រះខ័ន កំពង់ស្វាយ', '11th-12th Century - Preah Vihear', ['01000711 2.JPG', '01000725 2.JPG'])">
-                <div>
-                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
-                        <img src="01000711 2.JPG" alt="Preah Khan" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="px-2 mb-2">
-                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
-                            2. Preah Khan of Kampong Svay
-                        </h3>
-                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទព្រះខ័ន កំពង់ស្វាយ</span>
-                        <p class="text-xs text-neutral-500 line-clamp-2">
-                            The largest single religious enclosure complex ever built during the Angkorian period.
-                        </p>
-                    </div>
-                </div>
-                <div class="px-2 pb-2 pt-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
-                        EXPLORE GUIDE &rarr;
-                    </span>
-                </div>
+            <div class="tour-body">
+                <h3>🌁 Iconic Landmarks & Photo Walk</h3>
+                <p>Discover the best of San Francisco through the eyes of a local host. We take you to the most breathtaking viewpoints, iconic photo spots, and hidden gems.</p>
+                
+                <ul class="key-features">
+                    <li>✔ Golden Gate Bridge Views</li>
+                    <li>✔ Painted Ladies & Lombard Street</li>
+                    <li>✔ Friendly Local Host</li>
+                </ul>
+                <div class="price-tag">From $65 / person</div>
+                <!-- Button triggers the Modal -->
+                <button class="book-btn" onclick="openSFModal()">Book San Francisco Tour</button>
             </div>
-
-            <!-- Card 3 -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទបន្ទាយស្រី', '10th Century - Angkor Area', ['01000747.JPG', '01000750.JPG'])">
-                <div>
-                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
-                        <img src="01000747.JPG" alt="Banteay Srei" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="px-2 mb-2">
-                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
-                            3. Banteay Srei Temple
-                        </h3>
-                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទបន្ទាយស្រី</span>
-                        <p class="text-xs text-neutral-500 line-clamp-2">
-                            Known for its intricate pink sandstone carvings and exceptional aesthetic beauty.
-                        </p>
-                    </div>
-                </div>
-                <div class="px-2 pb-2 pt-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
-                        EXPLORE GUIDE &rarr;
-                    </span>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 border border-neutral-100 flex flex-col justify-between p-4 cursor-pointer" onclick="openModal('ប្រាសាទតាកែវ', '10th-11th Century - Angkor', ['01000773.JPG', '01000713 2.JPG'])">
-                <div>
-                    <div class="overflow-hidden aspect-[4/3] bg-neutral-100 rounded-2xl mb-4 relative">
-                        <img src="01000773.JPG" alt="Ta Keo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    <div class="px-2 mb-2">
-                        <h3 class="font-bold text-neutral-800 text-base leading-snug group-hover:text-cyan-600 transition mb-1">
-                            4. Ta Keo Temple
-                        </h3>
-                        <span class="text-xs font-normal text-neutral-500 block mb-2">ប្រាសាទតាកែវ</span>
-                        <p class="text-xs text-neutral-500 line-clamp-2">
-                            A massive temple-mountain dedicated to Shiva, constructed entirely of green sandstone.
-                        </p>
-                    </div>
-                </div>
-                <div class="px-2 pb-2 pt-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 group-hover:text-cyan-800 transition">
-                        EXPLORE GUIDE &rarr;
-                    </span>
-                </div>
-            </div>
-
         </div>
-    </section>
 
-    <!-- ផ្ទាំង Modal សម្រាប់បង្ហាញរូបភាពធំៗ -->
-    <div id="myModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h2 id="modalTitle" class="text-2xl font-bold text-neutral-800 mb-1"></h2>
-                    <p id="modalSubtitle" class="text-sm text-neutral-500"></p>
-                </div>
-                <button onclick="closeModal()" class="text-neutral-400 hover:text-neutral-700 font-bold text-3xl px-2">&times;</button>
-            </div>
-
-            <!-- ទីតាំងទាញរូបភាពមកបង្ហាញជាជួរដេកធំៗ -->
-            <div id="modalGallery" class="space-y-4 mb-6"></div>
-
-            <button onclick="closeModal()" class="px-6 py-3 bg-neutral-900 text-white rounded-xl text-xs font-bold uppercase hover:bg-neutral-800 transition">
-                Close Guide
-            </button>
-        </div>
     </div>
+</div>
 
-    <!-- កូដ JavaScript សម្រាប់បញ្ជា Modal -->
-    <script>
-    function openModal(title, subtitle, images) {
-        document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalSubtitle').innerText = subtitle;
+<!-- ===================================================== -->
+<!-- MODAL 1: SIEM REAP BOOKING FORM (Includes Specific Tours) -->
+<!-- ===================================================== -->
+<div id="siemReapModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeSiemReapModal()">&times;</span>
+        <h2>🇰🇭 Book Your Siem Reap Adventure</h2>
+        <form id="siemReapForm">
+            
+            <!-- 1. SELECT SPECIFIC SIEM REAP TOUR -->
+            <div class="form-group">
+                <label for="srTourSelect">Select Specific Siem Reap Tour</label>
+                <select id="srTourSelect" onchange="updateSRPrice()" required>
+                    <option value="sunrise" data-price="65">☀️ Angkor Wat Sunrise Tour (4:30 AM - 12:30 PM)</option>
+                    <option value="small-circle" data-price="55">🏛️ Small Circle Temples (Angkor Wat, Bayon, Ta Prohm)</option>
+                    <option value="grand-circle" data-price="60">🏯 Big/Grand Temple Circle (Preah Khan, Ta Som, East Mebon)</option>
+                    <option value="chong-khneas" data-price="45">🚤 Tonle Sap Lake: Chong Khneas Floating Village</option>
+                    <option value="kompong-pluck" data-price="70">🛶 Tonle Sap Lake: Kompong Pluck Flooded Forest</option>
+                    <option value="beng-mealea" data-price="90">🌿 Beng Mealea: The Jungle Temple Adventure</option>
+                    <option value="koh-ker" data-price="110">⛰️ Koh Ker & Beng Mealea (Full Day)</option>
+                    <option value="phnom-kulean" data-price="120">🏔️ Phnom Kulean: Sacred Mountain & Waterfall</option>
+                    <option value="city-tour" data-price="40">🛕 Siem Reap City Tour: Pagodas & Local Life</option>
+                    <option value="roluos" data-price="50">🧱 Roluos Group: Bakong, Lolei, Preah Ko</option>
+                    <option value="market" data-price="35">🛍️ Siem Reap Market & Artisan Village Tour</option>
+                    <option value="cooking" data-price="65">👨‍🍳 Khmer Cooking Class & Market Visit</option>
+                    <option value="west-baray" data-price="55">🌊 West Baray & West Mebon Island</option>
+                    <option value="banteay-sri" data-price="75">🌸 Banteay Srei: The Pink Temple</option>
+                    <option value="tuk-tuk" data-price="30">🛺 Tuk Tuk City Highlights Tour (Sunset/Day)</option>
+                    <option value="food-tour" data-price="55">🍲 Evening Street Food & Khmer Food Tasting Tour</option>
+                </select>
+            </div>
 
-        const gallery = document.getElementById('modalGallery');
-        gallery.innerHTML = ''; // សម្អាតទិន្នន័យចាស់
+            <!-- 2. DATE & LANGUAGE -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="srDate">Date</label>
+                    <input type="date" id="srDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="srLanguage">Guide Language</label>
+                    <select id="srLanguage" required>
+                        <option value="english">English</option>
+                        <option value="spanish">Español</option>
+                        <option value="japanese">日本語</option>
+                        <option value="french">Français</option>
+                        <option value="german">Deutsch</option>
+                    </select>
+                </div>
+            </div>
 
-        if (images && images.length > 0) {
-            images.forEach(function(src) {
-                const img = document.createElement('img');
-                img.src = src;
-                img.className = 'w-full h-auto max-h-[600px] rounded-2xl object-cover shadow-lg mb-4';
-                gallery.appendChild(img);
-            });
+            <!-- 3. GUESTS -->
+            <div class="form-group">
+                <label for="srGuests">Number of Travelers</label>
+                <input type="number" id="srGuests" value="2" min="1" required onchange="updateSRPrice()">
+            </div>
+
+            <!-- BOOKING SUMMARY & PAYMENTS -->
+            <div class="booking-summary">
+                <div class="summary-row">
+                    <span>Base Price (Per Person)</span>
+                    <span id="srBasePriceDisplay">$65</span>
+                </div>
+                <div class="summary-row">
+                    <span>Travelers</span>
+                    <span id="srGuestsDisplay">2</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total to Pay</span>
+                    <span id="srTotalDisplay">$130</span>
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTON (Links to direct payment) -->
+            <!-- Replace '#' with your actual Stripe or PayPal payment link for Siem Reap -->
+            <button type="submit" class="book-btn" style="background-color: #16a085; margin-top: 20px;">Proceed to Secure Payment (Direct to You)</button>
+            
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ===================================================== -->
+<!-- MODAL 2: SAN FRANCISCO BOOKING FORM (Original) -->
+<!-- ===================================================== -->
+<div id="sfModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeSFModal()">&times;</span>
+        <h2>🇺🇸 Book Your San Francisco Photo Walk</h2>
+        <form id="sfForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sfDate">Date</label>
+                    <input type="date" id="sfDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="sfTime">Time</label>
+                    <select id="sfTime" required>
+                        <option value="morning">Morning (9:00 AM)</option>
+                        <option value="afternoon">Afternoon (1:00 PM)</option>
+                        <option value="sunset">Sunset (5:00 PM)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sfGuests">Number of Travelers</label>
+                <input type="number" id="sfGuests" value="2" min="1" required onchange="updateSFPrice()">
+            </div>
+
+            <!-- BOOKING SUMMARY & PAYMENTS -->
+            <div class="booking-summary" style="background-color: #fdf2e9; border: 1px solid #e67e22;">
+                <div class="summary-row" style="color: #e67e22;">
+                    <span>Base Price (Per Person)</span>
+                    <span id="sfBasePriceDisplay">$65</span>
+                </div>
+                <div class="summary-row">
+                    <span>Travelers</span>
+                    <span id="sfGuestsDisplay">2</span>
+                </div>
+                <div class="summary-row summary-total" style="color: #d35400; border-top: 2px solid #e67e22;">
+                    <span>Total to Pay</span>
+                    <span id="sfTotalDisplay">$130</span>
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTON (Links to direct payment) -->
+            <!-- Replace '#' with your actual Stripe or PayPal payment link for SF -->
+            <button type="submit" class="book-btn" style="background-color: #d35400; margin-top: 20px;">Proceed to Secure Payment (Direct to You)</button>
+            
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT FOR MODALS & PRICING -->
+<!-- ===================================================== -->
+<script>
+    // --- SIEM REAP MODAL LOGIC ---
+    const srModal = document.getElementById("siemReapModal");
+    const srTourSelect = document.getElementById("srTourSelect");
+    const srGuestsInput = document.getElementById("srGuests");
+    const srBasePriceDisplay = document.getElementById("srBasePriceDisplay");
+    const srGuestsDisplay = document.getElementById("srGuestsDisplay");
+    const srTotalDisplay = document.getElementById("srTotalDisplay");
+
+    function openSiemReapModal() {
+        srModal.classList.add("show");
+        updateSRPrice(); // Initialize price calculation
+    }
+    function closeSiemReapModal() {
+        srModal.classList.remove("show");
+    }
+
+    function updateSRPrice() {
+        // Get the price from the selected option's data-price attribute
+        const selectedOption = srTourSelect.options[srTourSelect.selectedIndex];
+        const price = parseInt(selectedOption.getAttribute("data-price"));
+        const guests = parseInt(srGuestsInput.value);
+        const total = price * guests;
+
+        // Update the displays
+        srBasePriceDisplay.innerText = '$' + price;
+        srGuestsDisplay.innerText = guests;
+        srTotalDisplay.innerText = '$' + total;
+    }
+
+    // --- SAN FRANCISCO MODAL LOGIC (Original) ---
+    const sfModal = document.getElementById("sfModal");
+    const sfGuestsInput = document.getElementById("sfGuests");
+    const sfBasePriceDisplay = document.getElementById("sfBasePriceDisplay"); // Assuming ID exists in SF modal
+    const sfGuestsDisplay = document.getElementById("sfGuestsDisplay"); // Assuming ID exists in SF modal
+    const sfTotalDisplay = document.getElementById("sfTotalDisplay"); // Assuming ID exists in SF modal
+    const sfBasePrice = 65; // Fixed price for SF
+
+    function openSFModal() {
+        sfModal.classList.add("show");
+        updateSFPrice();
+    }
+    function closeSFModal() {
+        sfModal.classList.remove("show");
+    }
+
+    function updateSFPrice() {
+        const guests = parseInt(sfGuestsInput.value);
+        const total = sfBasePrice * guests;
+        
+        // If SF Modal elements exist, update them
+        if (sfBasePriceDisplay) sfBasePriceDisplay.innerText = '$' + sfBasePrice;
+        if (sfGuestsDisplay) sfGuestsDisplay.innerText = guests;
+        if (sfTotalDisplay) sfTotalDisplay.innerText = '$' + total;
+    }
+
+
+    // Close modal if user clicks outside of the modal content
+    window.onclick = function(event) {
+        if (event.target == srModal) {
+            closeSiemReapModal();
         }
-
-        document.getElementById('myModal').classList.remove('hidden');
+        if (event.target == sfModal) {
+            closeSFModal();
+        }
     }
-
-    function closeModal() {
-        document.getElementById('myModal').classList.add('hidden');
-    }
-    </script>
+</script>
 
 </body>
 </html>
